@@ -1,11 +1,14 @@
 {
   "Capabilities": {
-    "PROJECTNAME": "PaulPizza",
-    "CONTAINERMODE": "dialogflow",
-    "DIALOGFLOW_PROJECT_ID": "paulpizza-klcy",
-    "DIALOGFLOW_CLIENT_EMAIL": "<YOUR_SERVICE_ACCOUNT_EMAIL>",
-    "DIALOGFLOW_PRIVATE_KEY_ID": "<YOUR_PRIVATE_KEY_ID>",
-    "DIALOGFLOW_PRIVATE_KEY": "<YOUR_PRIVATE_KEY_WITH_ESCAPED_NEWLINES>",
-    "DIALOGFLOW_USE_INTENT": false
+    "PROJECTNAME": "DTAC-Mistral",
+    "CONTAINERMODE": "simplerest",
+    "SIMPLEREST_URL": "http://127.0.0.1:11434/api/generate",
+    "SIMPLEREST_METHOD": "POST",
+    "SIMPLEREST_BODY_TEMPLATE": {
+      "model": "mistral",
+      "stream": false,
+      "prompt": "{{msg.messageText}}"
+    },
+    "SIMPLEREST_RESPONSE_JSONPATH": "$.response"
   }
 }
