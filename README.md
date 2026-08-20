@@ -42,18 +42,36 @@ npm install --save-dev mocha chai axios dotenv
 
 ```text
 dtac-chatbot-tests/
- ├── scripts/
- │   ├── quick-curl-check-sendmessage-endpoint.sh
- │   └── dtac-runner.sh
- ├── tests/
- │   ├── sectionA.test.js
- │   ├── sectionB.test.js
- │   ├── sectionC.test.js
- │   ├── sectionD.test.js
- │   └── general.test.js
- ├── .env
- ├── package.json
- └── README.md
+├── README.md
+├── api
+│   ├── performance-dashboard.html
+│   └── quick-curl-check-sendmessage-endpoint.sh
+├── functional
+│   ├── package.json
+│   ├── test_utils
+│   │   ├── SendMessage.js
+│   │   └── expectResponse.js
+│   └── tests
+│       ├── DTAC_Audit_Tests_Conversational.test.js
+│       ├── DTAC_Challenging_Tests_Conversational.test.js
+│       ├── DTAC_E2E_Conversational_Advanced.test.js
+│       ├── DTAC_E2E_Conversational_Basic.test.js
+│       ├── DTAC_General_Awareness_Conversational.test.js
+│       ├── DTAC_Section_A_Conversational.test.js
+│       ├── DTAC_Section_B_Conversational.test.js
+│       ├── DTAC_Section_C_Conversational.test.js
+│       └── DTAC_Section_D_Conversational.test.js
+├── performance
+│   ├── load
+│   │   ├── messages-dtac.txt
+│   │   ├── messages-with-json.sh
+│   │   ├── messages-without-json.sh
+│   │   └── ux-api-dashboard.html
+│   └── performance_charts
+│       ├── latency.png
+│       ├── network.png
+│       ├── question_length_vs_latency.png
+│       └── response_length_latency.png
 ```
 
 ---
