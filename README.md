@@ -1,4 +1,4 @@
-# 🤖 DTAC Chatbot Functional Testing — Mocha Edition (No Docker)
+# 🤖 Chatbot Functional Testing
 
 ## 🧭 Overview
 This guide shows how to run **DTAC (Digital Technology Assessment Criteria)** chatbot tests using a simple **Node.js + Mocha** test framework — no Botium Box or Docker required.
