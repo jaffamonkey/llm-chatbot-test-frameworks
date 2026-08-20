@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>API Timing Viewer (5 s Reference Line)</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body style="font-family: sans-serif; background:#fafafa; color:#333;">
+  <div style="max-width:1000px;margin:auto;padding:20px;">
+    <h1 style="text-align:center;">API Timing Viewer</h1>
+    <p style="text-align:center;">Upload your CSV to visualize total latency and network breakdown trends.</p>
+
+    <div id="dropZone"
+         style="border:2px dashed #aaa;padding:30px;text-align:center;border-radius:10px;cursor:pointer;">
+      <strong>📂 Drop your CSV file here</strong><br>or click to browse
+      <input type="file" id="csvFile" accept=".csv" style="display:none;" />
+    </div>
+
+    <div style="margin-top:10px;text-align:center;">
+      <label>
+        Slow threshold (ms):
+        <input type="number" id="threshold" value="5000" min="0" step="100" />
+      </label>
+    </div>
+
+    <div id="chartTotal" style="width:100%;height:400px;margin-top:30px;"></div>
+    <div id="chartBreakdown" style="width:100%;height:400px;"></div>
+  </div>
+
+  <script>
+    // ----- Drag & drop setup -----
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('csvFile');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.background = '#f8f8f8'; });
+    dropZone.addEventListener('dragleave', () => dropZone.style.background = '');
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.style.background = '';
+      const file = e.dataTransfer.files[0];
+      fileInput.files = e.dataTransfer.files;
+      fileInput.dispatchEvent(new Event('change'));
+    });
+
+    // ----- Main logic -----
+    fileInput.addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      const thresholdInput = document.getElementById('threshold');
+      const TARGET_MS = 5000; // target performance baseline
+
+      function rollingAverage(arr, windowSize = 5) {
+        const avg = [];
+        for (let i = 0; i < arr.length; i++) {
+          const start = Math.max(0, i - windowSize + 1);
+          const window = arr.slice(start, i + 1);
+          const mean = window.reduce((a, b) => a + (b || 0), 0) / window.length;
+          avg.push(mean);
+        }
+        return avg;
+      }
+
+      function safeMax(values) {
+        return Math.max(...values.filter(v => typeof v === "number" && !isNaN(v)));
+      }
+
+      function drawCharts(threshold) {
+        Papa.parse(file, {
+          header: true,
+          dynamicTyping: true,
+          complete: function (results) {
+            const data = results.data.filter(row => row.timestamp);
+
+            const timestamps = data.map(row => {
+              const ts = new Date(row.timestamp);
+              return isNaN(ts.getTime()) ? null : ts;
+            }).filter(Boolean);
+
+            const dns = data.map(r => r.time_dns_ms);
+            const connect = data.map(r => r.time_connect_ms);
+            const ssl = data.map(r => r.time_ssl_ms);
+            const total = data.map(r => r.time_total_ms);
+
+            const slowIndices = total.map((t, i) => (t > threshold ? i : -1)).filter(i => i >= 0);
+            const slowTimestamps = slowIndices.map(i => timestamps[i]);
+            const slowValues = slowIndices.map(i => total[i]);
+
+            const rolling = rollingAverage(total, 5);
+
+            const minTime = new Date(Math.min(...timestamps.map(t => t.getTime())));
+            const maxTime = new Date(Math.max(...timestamps.map(t => t.getTime())));
+
+            // Compute dynamic ranges
+            const totalMax = safeMax(total);
+            const breakdownMax = Math.max(safeMax(dns), safeMax(connect), safeMax(ssl));
+
+            // --- Chart 1: Total ---
+            const totalTraces = [
+              { x: timestamps, y: total, name: 'Total Time (ms)', type: 'scatter', mode: 'lines',
+                line: { color: 'black', width: 2 } },
+              { x: timestamps, y: rolling, name: 'Rolling Avg (5-sample)', type: 'scatter', mode: 'lines',
+                line: { color: 'blue', dash: 'dot' } },
+              // { x: slowTimestamps, y: slowValues, name: `Slow Requests (> ${threshold} ms)`, type: 'scatter',
+              //   mode: 'markers', marker: { color: 'red', size: 8 } },
+            ];
+
+            // Add 5 s reference line
+            totalTraces.push({
+              x: [minTime, maxTime],
+              y: [TARGET_MS, TARGET_MS],
+              name: 'Target (5000 ms)',
+              type: 'scatter',
+              mode: 'lines',
+              line: { color: 'green', dash: 'dash', width: 2 },
+              hoverinfo: 'skip',
+            });
+
+            const layoutTotal = {
+              title: 'Overall API Latency (Total Time for Chatbot to respond to a message)',
+              xaxis: { title: 'Timestamp', range: [minTime, maxTime], type: 'date' },
+              yaxis: {
+                title: 'Total Time (ms)',
+                range: [0, totalMax * 1.05], // dynamic scale
+              },
+              hovermode: 'x unified',
+              legend: { orientation: 'h', y: -0.3 },
+              margin: { t: 50, l: 60, r: 20, b: 70 },
+            };
+
+            Plotly.newPlot('chartTotal', totalTraces, layoutTotal);
+
+            // --- Chart 2: Breakdown (DNS, Connect, SSL) ---
+            const breakdownTraces = [
+              { x: timestamps, y: dns, name: 'DNS (ms)', type: 'scatter', mode: 'lines',
+                line: { color: '#2ca02c', width: 2 }, opacity: 0.9 },
+              { x: timestamps, y: connect, name: 'Connect (ms)', type: 'scatter', mode: 'lines',
+                line: { color: '#ff7f0e', width: 2 }, opacity: 0.9 },
+              { x: timestamps, y: ssl, name: 'SSL (ms)', type: 'scatter', mode: 'lines',
+                line: { color: '#1f77b4', width: 2 }, opacity: 0.9 },
+            ];
+
+            const layoutBreakdown = {
+              title: 'Network Breakdown (DNS, Connect, SSL)',
+              xaxis: { title: 'Timestamp', range: [minTime, maxTime], type: 'date' },
+              yaxis: {
+                title: 'Time (ms)',
+                range: [0, breakdownMax * 1.2],
+              },
+              hovermode: 'x unified',
+              legend: { orientation: 'h', y: -0.3 },
+              margin: { t: 50, l: 60, r: 20, b: 70 },
+            };
+
+            Plotly.newPlot('chartBreakdown', breakdownTraces, layoutBreakdown);
+          },
+        });
+      }
+
+      drawCharts(parseInt(thresholdInput.value));
+      thresholdInput.addEventListener('input', () => {
+        drawCharts(parseInt(thresholdInput.value));
+      });
+    });
+  </script>
+</body>
+</html>

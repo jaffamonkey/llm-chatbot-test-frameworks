@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>API Latency & Analytics Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 40px;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .chart-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    canvas {
+      max-height: 420px;
+    }
+
+    .download-btn {
+      margin-top: 10px;
+      padding: 8px 14px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>📊 API Performance Dashboard</h1>
+    <p>Select your CSV log file to generate charts and statistics.</p>
+
+    <input type="file" id="fileInput" accept=".csv" />
+    <div id="error" class="error"></div>
+
+    <!-- SUMMARY -->
+    <div class="chart-box">
+      <h2>Summary Statistics</h2>
+      <table id="summaryTable">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- CHARTS -->
+
+    <div class="chart-box">
+      <h2>Overall Latency (ms)</h2>
+      <canvas id="latencyChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h2>Network Breakdown (ms)</h2>
+      <canvas id="networkChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h2>Question Length vs Latency</h2>
+      <canvas id="questionLengthChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h2>Response Length vs Latency</h2>
+      <canvas id="responseLengthChart"></canvas>
+    </div>
+
+  </div>
+
+  <script>
+
+    // --- FIXED RFC-4180 CSV PARSER ---
+    function safeSplitCSV(line) {
+      const result = [];
+      let current = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+
+        if (c === '"') {
+          if (inQuotes && line[i + 1] === '"') {
+            current += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        }
+        else if (c === ',' && !inQuotes) {
+          result.push(current);
+          current = "";
+        }
+        else {
+          current += c;
+        }
+      }
+
+      result.push(current);
+      return result;
+    }
+
+    document.getElementById("fileInput").addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+
+      reader.onload = evt => {
+        try { processCSV(evt.target.result); }
+        catch (err) { document.getElementById("error").textContent = "CSV Error: " + err; }
+      };
+
+      reader.readAsText(file);
+    });
+
+    function processCSV(csv) {
+      const lines = csv.trim().split(/\r?\n/);
+      const headers = safeSplitCSV(lines[0]);
+
+      // Map your real CSV columns
+      const idx = {
+        timestamp: headers.indexOf("timestamp"),
+        latency: headers.indexOf("latency_ms"),
+        dns: headers.indexOf("time_dns_ms"),
+        connect: headers.indexOf("time_connect_ms"),
+        ssl: headers.indexOf("time_ssl_ms"),
+        ttfb: headers.indexOf("time_ttfb_ms"),
+        question: headers.indexOf("question"),
+        response: headers.indexOf("response_text")
+      };
+
+      const timestamps = [], latencies = [], dnsArr = [], connectArr = [], sslArr = [], ttfbArr = [];
+      const questionLengths = [], responseLengths = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const p = safeSplitCSV(lines[i]);
+        if (p.length < headers.length) continue;
+
+        timestamps.push(p[idx.timestamp]);
+        latencies.push(Number(p[idx.latency] || 0));
+        dnsArr.push(Number(p[idx.dns] || 0));
+        connectArr.push(Number(p[idx.connect] || 0));
+        sslArr.push(Number(p[idx.ssl] || 0));
+        ttfbArr.push(Number(p[idx.ttfb] || 0));
+
+        const q = p[idx.question] || "";
+        const r = p[idx.response] || "";
+
+        questionLengths.push(q.length);
+        responseLengths.push(r.length);
+      }
+
+      renderSummary(latencies);
+      renderCharts(
+        timestamps, latencies,
+        { dns: dnsArr, connect: connectArr, ssl: sslArr, ttfb: ttfbArr },
+        questionLengths, responseLengths
+      );
+    }
+
+    function renderSummary(latencies) {
+      const table = document.querySelector("#summaryTable tbody");
+      const min = Math.min(...latencies);
+      const max = Math.max(...latencies);
+      const avg = latencies.reduce((a, b) => a + b, 0) / latencies.length;
+
+      table.innerHTML = `
+    <tr><td>Total Requests</td><td>${latencies.length}</td></tr>
+    <tr><td>Fastest Response</td><td>${min} ms</td></tr>
+    <tr><td>Slowest Response</td><td>${max} ms</td></tr>
+    <tr><td>Average Latency</td><td>${avg.toFixed(2)} ms</td></tr>
+  `;
+    }
+
+    let latencyChart, networkChart, questionLengthChart, responseLengthChart;
+
+    function renderCharts(timestamps, latencies, net, qlen, rlen) {
+
+      const ctx1 = document.getElementById("latencyChart");
+      const ctx2 = document.getElementById("networkChart");
+      const ctx3 = document.getElementById("questionLengthChart");
+      const ctx4 = document.getElementById("responseLengthChart");
+
+      if (latencyChart) latencyChart.destroy();
+      if (networkChart) networkChart.destroy();
+      if (questionLengthChart) questionLengthChart.destroy();
+      if (responseLengthChart) responseLengthChart.destroy();
+
+      latencyChart = new Chart(ctx1, {
+        type: "line",
+        data: {
+          labels: timestamps,
+          datasets: [{
+            label: "Latency (ms)",
+            data: latencies,
+            borderColor: "#2563eb",
+            backgroundColor: "rgba(37,99,235,0.25)",
+            tension: 0.25
+          }]
+        }
+      });
+
+      networkChart = new Chart(ctx2, {
+        type: "line",
+        data: {
+          labels: timestamps,
+          datasets: [
+            { label: "DNS", data: net.dns, borderColor: "#0ea5e9", tension: 0.25 },
+            { label: "Connect", data: net.connect, borderColor: "#10b981", tension: 0.25 },
+            { label: "SSL", data: net.ssl, borderColor: "#6366f1", tension: 0.25 },
+            { label: "TTFB", data: net.ttfb, borderColor: "#f59e0b", tension: 0.25 }
+          ]
+        }
+      });
+
+      questionLengthChart = new Chart(ctx3, {
+        type: "scatter",
+        data: {
+          datasets: [{
+            label: "Question Length vs Latency",
+            data: qlen.map((q, i) => ({ x: q, y: latencies[i] })),
+            backgroundColor: "#2563eb"
+          }]
+        },
+        options: {
+          scales: {
+            x: { title: { display: true, text: "Question Length" } },
+            y: { title: { display: true, text: "Latency (ms)" } }
+          }
+        }
+      });
+
+      responseLengthChart = new Chart(ctx4, {
+        type: "scatter",
+        data: {
+          datasets: [{
+            label: "Response Length vs Latency",
+            data: rlen.map((q, i) => ({ x: q, y: latencies[i] })),
+            backgroundColor: "#f43f5e"
+          }]
+        },
+        options: {
+          scales: {
+            x: { title: { display: true, text: "Response Length" } },
+            y: { title: { display: true, text: "Latency (ms)" } }
+          }
+        }
+      });
+
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+{
+  "name": "conversation_botium_testsuite",
+  "version": "1.0.0",
+  "description": "This guide walks you through setting up and running **NHS DTAC (Digital Technology Assessment Criteria)** chatbot tests using **Botium CLI**.   The `.convo.txt` files represent conversational test cases grouped by DTAC sections (A–D), general awareness, challenging phrasing, and audit-level questions.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha tests/**/*.test.js --reporter allure-mocha --no-parallel --no-timeouts ",
+    "runa": "mocha --no-parallel tests/DTAC_Section_A_Conversational.test.js  --reporter allure-mocha --no-timeouts",
+    "runb": "mocha --no-parallel tests/DTAC_Section_B_Conversational.test.js  --reporter allure-mocha --no-timeouts",
+    "runc": "mocha --no-parallel tests/DTAC_Section_C_Conversational.test.js  --reporter allure-mocha --no-timeouts",
+    "rund": "mocha --no-parallel tests/DTAC_Section_D_Conversational.test.js  --reporter allure-mocha --no-timeouts",
+    "rune": "mocha --no-parallel tests/DTAC_Audit_Tests_Conversational.test.js  --reporter allure-mocha --no-timeouts",
+    "runf": "mocha --no-parallel tests/DTAC_Challenging_Tests_Conversational.test.js  --reporter allure-mocha --no-timeouts",
+    "rung": "mocha --no-parallel tests/DTAC_E2E_Conversational_Basic.test.js  --reporter allure-mocha --no-timeouts",
+    "rungg": "mocha --no-parallel tests/DTAC_E2E_Conversational_Advanced.test.js  --reporter allure-mocha --no-timeouts",
+    "runh": "mocha --no-parallel tests/DTAC_General_Awareness_Conversational.test.js  --reporter allure-mocha --no-timeouts",
+    "test:watch": "mocha tests/**/*.test.js --watch",
+    "test:report": "mocha tests/**/*.test.js --reporter spec",
+    "report": "allure generate allure-results --clean && allure open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "allure-mocha": "^3.4.2",
+    "chart.js": "^4.5.1",
+    "chartjs-node-canvas": "^5.0.0",
+    "dotenv": "^17.2.3",
+    "mocha": "^11.7.4"
+    },
+  "dependencies": {
+    "node-libcurl": "^4.1.0"
+  }
+}
