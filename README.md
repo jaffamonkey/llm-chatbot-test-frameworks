@@ -49,9 +49,7 @@ dtac-chatbot-tests/
 ├── botium_tests
 │   ├── README.md
 │   ├── botium.json
-│   ├── dialogflow.json
 │   ├── package.json
-│   ├── quickcheck_guide.md
 │   └── spec
 │       ├── botium.spec.js
 │       └── convo
