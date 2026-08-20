@@ -1,6 +1,6 @@
-# 🤖 Local LLM & Chatbot API Testing Suite
+# Local LLM & Chatbot API Testing Suite
 
-## 🧭 Overview
+## Overview
 This guide shows how to run **DTAC (Digital Technology Assessment Criteria)** chatbot tests using a simple **Node.js + Mocha** test framework. Originally built for cloud-hosted chatbot APIs, this suite is optimized to run locally against **Ollama** models like Mistral.
 
 It provides:
@@ -12,7 +12,7 @@ It provides:
 
 ---
 
-## 🧰 1️⃣ Prerequisites
+## Prerequisites
 
 ### Install Node.js & Ollama
 Make sure you have Node 16+:
@@ -38,7 +38,7 @@ npm install --save-dev mocha chai axios dotenv
 
 ---
 
-## 🧩 2️⃣ Project Structure
+## Project Structure
 
 ```text
 dtac-chatbot-tests/
@@ -58,7 +58,7 @@ dtac-chatbot-tests/
 
 ---
 
-## ⚙️ 3️⃣ Environment Variables
+## Environment Variables
 
 Create a `.env` file at the root of your project:
 `.env`
@@ -69,7 +69,7 @@ OLLAMA_MODEL=mistral
 
 ---
 
-## 🧪 4️⃣ Example Mocha Test (DTAC Section C - Technical & Data Protection)
+## Example Mocha Test (DTAC Section C - Technical & Data Protection)
 
 `tests/sectionC.test.js`
 ```javascript
@@ -121,7 +121,7 @@ describe('DTAC Section C - Technical & Data Protection', function () {
 
 ---
 
-## 📊 5️⃣ Performance Testing with Bash
+## Performance Testing with Bash
 
 Alongside the Mocha framework, this repository includes robust Bash scripts to test connection phases (DNS, SSL, TTFB) and latency against the local LLM.
 
@@ -130,7 +130,7 @@ Alongside the Mocha framework, this repository includes robust Bash scripts to t
 
 ---
 
-## 🧩 6️⃣ Add Scripts to `package.json`
+## Add Scripts to `package.json`
 
 ```json
 "scripts": {
@@ -142,7 +142,7 @@ Alongside the Mocha framework, this repository includes robust Bash scripts to t
 
 ---
 
-## 🏃 7️⃣ Run Tests
+## Run Tests
 
 ```bash
 npm test
@@ -159,7 +159,7 @@ Sample output:
 
 ---
 
-## 🧮 8️⃣ Add Other Sections (A–D)
+## Add Other Sections (A–D)
 
 Just replicate the same pattern - for example:
 
@@ -172,7 +172,7 @@ Each test file can contain regex expectations for its DTAC clauses.
 
 ---
 
-## 📈 9️⃣ Reporting Options
+## Reporting Options
 
 You can add Mocha reporters for CI/CD pipelines:
 
@@ -198,7 +198,7 @@ mochawesome-report/mochawesome.html
 
 ---
 
-## ⚙️ 10️⃣ Continuous Integration Example (GitHub Actions)
+## Continuous Integration Example (GitHub Actions)
 
 *Note: Running local LLMs in CI requires either a self-hosted runner with sufficient hardware (GPU recommended) or a pre-configured Ollama service step.*
 
@@ -229,7 +229,7 @@ jobs:
 
 ---
 
-## 🧾 11️⃣ Why This Approach Rocks
+## Why This Approach Rocks
 
 | Feature | Mocha Tests | Botium Box |
 |----------|--------------|-------------|
@@ -243,7 +243,7 @@ jobs:
 
 ---
 
-## 🏁 12️⃣ Summary
+## Summary
 
 ✅ No Botium dependencies
 ✅ All DTAC clauses tested via regex and keyword checks
