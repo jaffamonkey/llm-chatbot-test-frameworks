@@ -46,6 +46,20 @@ dtac-chatbot-tests/
 ├── api
 │   ├── performance-dashboard.html
 │   └── quick-curl-check-sendmessage-endpoint.sh
+├── botium_tests
+│   ├── README.md
+│   ├── botium.json
+│   ├── dialogflow.json
+│   ├── package.json
+│   ├── quickcheck_guide.md
+│   └── spec
+│       ├── botium.spec.js
+│       └── convo
+│           ├── A_B_Context.conv
+│           ├── C1_ClinicalSafety.conv
+│           ├── C2_DataProtection.conv
+│           ├── C3_TechnicalSecurity.conv
+│           └── C4_Interoperability_and_D1_Usability.conv
 ├── functional
 │   ├── package.json
 │   ├── test_utils
