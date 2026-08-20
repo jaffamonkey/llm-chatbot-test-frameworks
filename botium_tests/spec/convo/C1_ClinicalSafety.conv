@@ -1,0 +1,68 @@
+=== DTAC Section C1: Clinical Safety ===
+
+# C1.1 - Clinical risk management compliance
+#me
+What are the clinical safety requirements for DTAC?
+
+#bot
+PARTIAL: DCB0129
+PARTIAL: clinical risk management
+PARTIAL: NHS Digital
+
+# C1.1.1 - Risk management system
+#me
+Do I need to provide a Clinical Risk Management System?
+
+#bot
+PARTIAL: clinical risk management system
+PARTIAL: governance
+PARTIAL: training
+PARTIAL: audits
+
+# C1.1.2 - Safety case and hazard log
+#me
+What should be in my Clinical Safety Case Report?
+
+#bot
+PARTIAL: hazard log
+PARTIAL: residual risks
+PARTIAL: mitigation
+PARTIAL: report template
+
+# C1.2 - Clinical Safety Officer
+#me
+Do I need a Clinical Safety Officer for DTAC compliance?
+
+#bot
+PARTIAL: clinical safety officer
+PARTIAL: registered clinician
+PARTIAL: risk management
+PARTIAL: DCB0129
+
+# C1.3 - MHRA registration
+#me
+Does my product need MHRA registration?
+
+#bot
+PARTIAL: MHRA
+PARTIAL: UK Medical Devices Regulations
+PARTIAL: registration number
+
+# C1.3.2 - Conformity documentation
+#me
+What kind of conformity documents should I submit?
+
+#bot
+PARTIAL: declaration of conformity
+PARTIAL: certificate of conformity
+PARTIAL: UKCA
+PARTIAL: CE
+
+# C1.4 - Third-party products
+#me
+Do I have to provide third-party product documentation?
+
+#bot
+PARTIAL: third-party
+PARTIAL: conformity certificate
+PARTIAL: clinical risk management

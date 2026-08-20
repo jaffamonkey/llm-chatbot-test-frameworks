@@ -1,0 +1,146 @@
+=== DTAC Section C4: Interoperability & D1: Usability and Accessibility ===
+
+# C4.1 - API integration
+#me
+Does my product need APIs for DTAC compliance?
+
+#bot
+PARTIAL: API
+PARTIAL: Open API
+PARTIAL: interoperability
+
+# C4.2 - NHS number usage
+#me
+Can I use the NHS number to identify patients?
+
+#bot
+PARTIAL: NHS number
+PARTIAL: NHS Login
+PARTIAL: authentication
+
+# C4.3 - EHR interoperability
+#me
+Does my product need to integrate with electronic health records?
+
+#bot
+PARTIAL: EHR
+PARTIAL: read/write
+PARTIAL: OAuth
+PARTIAL: TLS
+
+# C4.4 - Wearable integration
+#me
+What if my product integrates with wearables or devices?
+
+#bot
+PARTIAL: ISO
+PARTIAL: IEEE 11073
+PARTIAL: personal health data
+
+# D1.1 - Understand users
+#me
+How should I show that I understand user needs?
+
+#bot
+PARTIAL: user research
+PARTIAL: stakeholders
+PARTIAL: engagement
+
+# D1.2 - Whole user problem
+#me
+Do I need to map full user journeys?
+
+#bot
+PARTIAL: user journeys
+PARTIAL: pathways
+PARTIAL: problem solving
+
+# D1.3 - Usability testing
+#me
+Should I perform user acceptance testing?
+
+#bot
+PARTIAL: usability
+PARTIAL: user testing
+PARTIAL: validation
+
+# D1.4 - Accessibility
+#me
+What accessibility standards does DTAC expect?
+
+#bot
+PARTIAL: WCAG 2.1 AA
+PARTIAL: accessibility statement
+PARTIAL: inclusive design
+
+# D1.5 - Multidisciplinary team
+#me
+Does my team need multiple disciplines?
+
+#bot
+PARTIAL: multidisciplinary
+PARTIAL: design
+PARTIAL: clinical input
+
+# D1.6 - Agile methods
+#me
+Do I need to use agile ways of working?
+
+#bot
+PARTIAL: agile
+PARTIAL: iteration
+PARTIAL: continuous improvement
+
+# D1.7 - Continuous improvement
+#me
+Does DTAC check for ongoing improvement?
+
+#bot
+PARTIAL: iteration
+PARTIAL: updates
+PARTIAL: feedback
+
+# D1.8 - Benefits and success metrics
+#me
+Do I need to define success metrics?
+
+#bot
+PARTIAL: benefits case
+PARTIAL: objectives
+PARTIAL: measurable metrics
+
+# D1.9 - Cloud first
+#me
+Does my product need to follow the NHS Cloud First strategy?
+
+#bot
+PARTIAL: cloud first
+PARTIAL: internet first
+PARTIAL: NHS strategy
+
+# D1.10 - Open standards
+#me
+Do I need to use open standards or patterns?
+
+#bot
+PARTIAL: open standards
+PARTIAL: common components
+PARTIAL: NHS patterns
+
+# D1.11 - Service reliability
+#me
+Does DTAC require service level agreements?
+
+#bot
+PARTIAL: SLA
+PARTIAL: uptime
+PARTIAL: 99.9
+
+# D1.12 - Performance reporting
+#me
+Do I need to report performance to customers?
+
+#bot
+PARTIAL: performance reports
+PARTIAL: availability
+PARTIAL: uptime percentage

@@ -1,0 +1,66 @@
+=== DTAC Sections A & B: Company Information and Value Proposition ===
+
+# A1 - Company name
+#me
+What company details are required for DTAC?
+
+#bot
+PARTIAL: company name
+PARTIAL: contact details
+PARTIAL: registered address
+
+# A2 - Product name
+#me
+Do I need to include my product name in DTAC?
+
+#bot
+PARTIAL: product name
+PARTIAL: product type
+PARTIAL: company information
+
+# A3 - Product type
+#me
+What type of product information do I need to provide?
+
+#bot
+PARTIAL: app
+PARTIAL: wearable
+PARTIAL: SaaS
+PARTIAL: other
+
+# B1 - Target audience
+#me
+Who should I say the product is for?
+
+#bot
+PARTIAL: patients
+PARTIAL: clinicians
+PARTIAL: workforce
+PARTIAL: diagnostics
+
+# B2 - Product description
+#me
+What kind of product description does DTAC expect?
+
+#bot
+PARTIAL: what it does
+PARTIAL: how it is used
+PARTIAL: summary of functionality
+
+# B3 - Benefits and validation
+#me
+Do I need to prove my product's benefits?
+
+#bot
+PARTIAL: benefits
+PARTIAL: validation
+PARTIAL: evidence
+
+# B4 - User journeys and data flows
+#me
+Should I attach user journeys for DTAC?
+
+#bot
+PARTIAL: user journeys
+PARTIAL: data flows
+PARTIAL: supporting information

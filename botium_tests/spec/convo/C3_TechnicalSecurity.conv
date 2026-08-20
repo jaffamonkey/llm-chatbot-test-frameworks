@@ -1,0 +1,55 @@
+=== DTAC Section C3: Technical Security ===
+
+# C3.1 - Cyber Essentials
+#me
+Do I need a Cyber Essentials certificate?
+
+#bot
+PARTIAL: Cyber Essentials
+PARTIAL: certification
+PARTIAL: cybersecurity
+
+# C3.2 - Penetration testing
+#me
+What are DTAC’s penetration testing requirements?
+
+#bot
+PARTIAL: penetration test
+PARTIAL: OWASP
+PARTIAL: vulnerabilities
+
+# C3.3 - Code review
+#me
+Do I have to review my custom code for security?
+
+#bot
+PARTIAL: code review
+PARTIAL: security review
+PARTIAL: NCSC guidance
+
+# C3.4 - MFA
+#me
+Does DTAC require Multi-Factor Authentication?
+
+#bot
+PARTIAL: MFA
+PARTIAL: privileged accounts
+PARTIAL: authentication
+
+# C3.5 - Logging and reporting
+#me
+Do I need to define logging and reporting requirements?
+
+#bot
+PARTIAL: logging
+PARTIAL: audit trails
+PARTIAL: monitoring
+
+# C3.6 - Load testing
+#me
+Do I have to perform load testing for DTAC?
+
+#bot
+PARTIAL: load testing
+PARTIAL: performance
+PARTIAL: stability

@@ -1,0 +1,74 @@
+=== DTAC Section C2: Data Protection ===
+
+# C2.1 - ICO registration
+#me
+Do I need to register with the Information Commissioner for DTAC?
+
+#bot
+PARTIAL: Information Commissioner
+PARTIAL: ICO registration
+PARTIAL: self-assessment
+PARTIAL: personal data
+
+# C2.2 - Data Protection Officer
+#me
+Do I need a Data Protection Officer for DTAC?
+
+#bot
+PARTIAL: Data Protection Officer
+PARTIAL: DPO
+PARTIAL: GDPR
+
+# C2.3 - Patient data access
+#me
+Does my product access patient or personal data?
+
+#bot
+PARTIAL: patient data
+PARTIAL: personally identifiable
+PARTIAL: GDPR
+
+# C2.3.1 - DSP Toolkit
+#me
+Do I need to complete the Data Security and Protection Toolkit?
+
+#bot
+PARTIAL: Data Security and Protection Toolkit
+PARTIAL: DSPT
+PARTIAL: compliance
+
+# C2.3.2 - DPIA
+#me
+Do I have to provide a DPIA for DTAC?
+
+#bot
+PARTIAL: Data Protection Impact Assessment
+PARTIAL: DPIA
+PARTIAL: GDPR risks
+
+# C2.4 - Risk sign-off
+#me
+Who should sign off my data protection risks and controls?
+
+#bot
+PARTIAL: DPO
+PARTIAL: accountable officer
+PARTIAL: sign-off
+
+# C2.5 - Data storage location
+#me
+Where should DTAC products store data?
+
+#bot
+PARTIAL: UK
+PARTIAL: EU
+PARTIAL: compliant country
+
+# C2.5.1 - Data processing outside UK
+#me
+Can data be stored outside the UK?
+
+#bot
+PARTIAL: data transfer
+PARTIAL: adequacy
+PARTIAL: compliance
