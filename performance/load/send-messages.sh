@@ -25,7 +25,7 @@ now_ms() {
 }
 
 current_log() {
-  echo "${LOG_DIR}/messages-without-json.csv"
+  echo "${LOG_DIR}/send-massages.csv"
 }
 
 ensure_log_header() {

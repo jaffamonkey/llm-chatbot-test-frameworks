@@ -76,8 +76,7 @@ dtac-chatbot-tests/
 ├── performance
 │   ├── load
 │   │   ├── messages-dtac.txt
-│   │   ├── messages-with-json.sh
-│   │   ├── messages-without-json.sh
+│   │   ├── send-messages.sh
 │   │   └── ux-api-dashboard.html
 │   └── performance_charts
 │       ├── latency.png
