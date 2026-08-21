@@ -46,7 +46,7 @@ dtac-chatbot-tests/
 ├── api
 │   ├── performance-dashboard.html
 │   └── quick-curl-check-sendmessage-endpoint.sh
-├── botium_tests
+├── botium-tests
 │   ├── README.md
 │   ├── botium.json
 │   ├── package.json
