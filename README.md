@@ -78,11 +78,6 @@ dtac-chatbot-tests/
 │   │   ├── messages-dtac.txt
 │   │   ├── send-messages.sh
 │   │   └── ux-api-dashboard.html
-│   └── performance_charts
-│       ├── latency.png
-│       ├── network.png
-│       ├── question_length_vs_latency.png
-│       └── response_length_latency.png
 ```
 
 ---
